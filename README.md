@@ -16,7 +16,7 @@ More detail about NYT API [here](https://developer.nytimes.com/docs/archive-prod
 To install request 
 
 ```
-pip install smopy 
+pip3.4 install requests
 ```
 
 or using conda:
