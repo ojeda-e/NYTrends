@@ -37,7 +37,7 @@ All the notebooks here included use Python 3.7. The exercises are intended to be
 
 
 
-[[img src="https://github.com/ojeda-e/NYTrends/blob/master/NYTrends_Diagram.pdf"]]
+[[img src="https://github.com/ojeda-e/NYTrends/blob/master/NYTrends_Diagram.png"]]
 
 
 ## Analizing the NYT Archive
