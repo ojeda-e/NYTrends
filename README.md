@@ -9,7 +9,7 @@ More detail about NYT API [here](https://developer.nytimes.com/docs/archive-prod
 
 ### Prerequisites
 
-- Request
+- Requests
 - Calendar
 - Operator
 
