@@ -53,38 +53,38 @@ def word_dict(top, month, year, my_key, csv_file):
     """ Return a dictionary {"word": frequency_of_word} """
 
 
-    print(month, year)
-    list_words_inheader = []
-    
-    data = my_archive(year, month, my_key)
-    
-    for element in range(len(data['docs'])):
-        
-        if 'main' in data['docs'][element]['headline']:
-            list_words_inheader.extend(data['docs'][element]['headline']['main'].split() )
-            
-        else:
-            csv_file.write(str(year)+','+str(month)+','+str(element)+"\n")
-            print("No main for header for index", element)
+	print(month, year)
+	list_words_inheader = []
 
-    #print(list_words_inheader)
-    # Delete multiple occurrence
-    new_list = list(set(list_words_inheader))  
-    
-    #create dictionary dict-like withs keys from list with single occurrence
-    for i in new_list:
-        word_freq = {key : 0 for key in new_list}
+	data = my_archive(year, month, my_key)
 
+	for element in range(len(data['docs'])):
         
-    #count frequency of each word
-    for key in list_words_inheader:
-        word_freq[key] = word_freq[key] + 1
-        
-    word_freq_f = drop_key(word_freq)
-    
-    fwords = {key: word_freq_f[key] for key in nlargest(top, word_freq_f, key = word_freq_f.get)}
+		if 'main' in data['docs'][element]['headline']:
+			list_words_inheader.extend(data['docs'][element]['headline']['main'].split() )
 
-    return fwords
+		else:
+			csv_file.write(str(year)+','+str(month)+','+str(element)+"\n")
+			print("No main for header for index", element)
+
+	#print(list_words_inheader)
+	# Delete multiple occurrence
+	new_list = list(set(list_words_inheader))  
+
+	#create dictionary dict-like withs keys from list with single occurrence
+	for i in new_list:
+		word_freq = {key : 0 for key in new_list}
+
+
+	#count frequency of each word
+	for key in list_words_inheader:
+		word_freq[key] = word_freq[key] + 1
+
+	word_freq_f = drop_key(word_freq)
+
+	fwords = {key: word_freq_f[key] for key in nlargest(top, word_freq_f, key = word_freq_f.get)}
+
+	return fwords
 
 def main ():
 	years = range(2000,2018)
@@ -97,19 +97,19 @@ def main ():
 
 
 	for year in years:
-	    
-	    wf_by_year[year] = {month_name[key]: [] for key in range(1,13)}
-	    print('**Year:',year)
-	    
-	    for month in range(3,5):
-	        print("Extracting data from", month_name[month], year)
-	        wf_by_year[year][month_name[month]] = word_dict(100, month, year, my_key, aux_file)  
 
-	        
+		wf_by_year[year] = {month_name[key]: [] for key in range(1,13)}
+		print('**Year:',year)
+
+		for month in range(3,5):
+			print("Extracting data from", month_name[month], year)
+			wf_by_year[year][month_name[month]] = word_dict(100, month, year, my_key, aux_file)  
+
+
 	aux_file.close() 
 
 	with open('NYT_archive_wordfreq_1990-2018.json', 'w') as json_file:  
-	    json.dump(wf_by_year, json_file)
+		json.dump(wf_by_year, json_file)
 
 
 main()
