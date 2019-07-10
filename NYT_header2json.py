@@ -23,29 +23,30 @@ def my_archive(year, month, key):
 
 def drop_key(dict):
 	"""Drop missleading keys in dictionary"""
+	# Remove articles, personal pronouns, prepositions, etc
 
-    # Remove articles, personal pronouns, prepositions, etc
-    drop = ["the", "a", "A", "As", "as", "at", "At", "Against", "About", "By", "With", "It", "Is", "to", "To", "TO", "in", "In", "MARKETS:",
-        "BRIEFING", "IN", "Into", "for", "For", "THE", "The", "An", "an", "and", "And", "Are", "After", "Of", "OF","of", "Off", "May",
-        "On", "on", "or", 'OR', 'Out', "One", "Over", "by", "her", "Her", "his", "His", "From", "That", "This", "No", "but", "GUIDE",
-        "But", "Not", "Paid", "Notice:", "Deaths", "New", "Corrections", "Memorials", "Back", "October", "First", "York", "You", "Your", "Times;",
-        "Their", "It's", "Its", "How", "Two",  "Up", "Who", "What", "When", "Where", "We", "They", "vs.",
-        "Journal.", "Books", "Sports", "Big", "Say", "Do", "Be", "Sports", "Will", "I", "Has", "Your", "SUMMARY",
-        "TRANSACTIONS", "QUOTATION"]
+	drop = [ 
+		"the", "a", "A", "As", "as", "at", "At", "Against", "About", "By", "With", "It", "Is", "to", "To", "TO", "in", "In", 
+		"MARKETS:", "BRIEFING", "IN", "Into", "for", "For", "THE", "The", "An", "an", "and", "And", "Are", "After", "Of", "OF",
+		"of", "Off", "May", "On", "on", "or", 'OR', 'Out', "One", "Over", "by", "her", "Her", "his", "His", "From", "That", "This", 
+		"No", "but", "GUIDE", "But", "Not", "Paid", "Notice:", "Deaths", "New", "Corrections", "Memorials", "Back", "October", 
+		"First", "York", "You", "Your", "Times;", "Their", "It's", "Its", "How", "Two",  "Up", "Who", "What", "When", "Where", "We", 
+		"They", "vs.", "Journal.", "Books", "Sports", "Big", "Say", "Do", "Be", "Sports", "Will", "I", "Has", "Your", "SUMMARY",
+		"TRANSACTIONS", "QUOTATION"]
 
-    # Remove number in range [0,100], ascii characters, years and months.
-    drop.extend(str(i) for i in range(101))
-    drop.extend(letter+'.' for letter in ascii_uppercase)
-    drop.extend(month_name[i] for i in range(1,13))
-    drop.extend(string.printable[i] for i in range(62,94))
-    drop.extend(str(year) for year in range(2000,2019))
-    
+	# Remove number in range [0,100], ascii characters, years and months.
+	drop.extend(str(i) for i in range(101))
+	drop.extend(letter+'.' for letter in ascii_uppercase)
+	drop.extend(month_name[i] for i in range(1,13))
+	drop.extend(string.printable[i] for i in range(62,94))
+	drop.extend(str(year) for year in range(2000,2019))
 
-    # Remove keys in dictionary
-    for word in drop:
-        dict.pop(word, None)
-        
-    return dict
+
+	# Remove keys in dictionary
+	for word in drop:
+	    dict.pop(word, None)
+	    
+	return dict
 
 
 def word_dict(top, month, year, my_key, csv_file):
@@ -82,11 +83,36 @@ def word_dict(top, month, year, my_key, csv_file):
     word_freq_f = drop_key(word_freq)
     
     fwords = {key: word_freq_f[key] for key in nlargest(top, word_freq_f, key = word_freq_f.get)}
-    
-
 
     return fwords
 
+def main ():
+	years = range(2000,2018)
+
+	wf_by_year = {key:[] for key in years}
+
+	aux_file_name = "Missing_headers.csv"
+	aux_file = open(aux_file_name, 'w')
+	aux_file.write('Year,Month,Index\n')
+
+
+	for year in years:
+	    
+	    wf_by_year[year] = {month_name[key]: [] for key in range(1,13)}
+	    print('**Year:',year)
+	    
+	    for month in range(3,5):
+	        print("Extracting data from", month_name[month], year)
+	        wf_by_year[year][month_name[month]] = word_dict(100, month, year, my_key, aux_file)  
+
+	        
+	aux_file.close() 
+
+	with open('NYT_archive_wordfreq_1990-2018.json', 'w') as json_file:  
+	    json.dump(wf_by_year, json_file)
+
+
+main()
 
 
 
