@@ -94,3 +94,24 @@ def output_missing(aux_file_name):
 	aux_.write('Year,Month,Index\n')
 
 	return aux_
+
+
+def export_json(aux_file, json_name, years, my_NYT_key):
+
+	wf_by_year = {key:[] for key in years}
+
+	for year in years:
+
+		wf_by_year[year] = {month_name[key]: [] for key in range(1,13)}
+		print('**Year:',year)
+
+		for month in range(1,12):
+			print("Extracting data from", month_name[month], year)
+			wf_by_year[year][month_name[month]] = word_dict(100, month, year, my_NYT_key, aux_file)  
+
+	aux_file.close() 
+
+	with open(json_name, 'w') as json_file:  
+		json.dump(wf_by_year, json_file)
+
+	return 0
