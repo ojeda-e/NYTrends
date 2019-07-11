@@ -50,16 +50,15 @@ def drop_key(dict):
 
 
 def word_dict(top, month, year, my_key, csv_file):
-    """ Return a dictionary {"word": frequency_of_word} """
+	""" Return a dictionary {"word": frequency_of_word} """ 
 
-
-	print(month, year)
+	#print(month, year)
 	list_words_inheader = []
 
 	data = my_archive(year, month, my_key)
 
 	for element in range(len(data['docs'])):
-        
+
 		if 'main' in data['docs'][element]['headline']:
 			list_words_inheader.extend(data['docs'][element]['headline']['main'].split() )
 
@@ -86,33 +85,37 @@ def word_dict(top, month, year, my_key, csv_file):
 
 	return fwords
 
-def main ():
-	years = range(2000,2018)
+
+def output_missing(aux_file_name):
+	#aux_file_name = "Missing_headers.csv"
+	aux_ = open(aux_file_name, 'w')
+	aux_.write('Year,Month,Index\n')
+
+	return aux_
+
+def export_json(aux_file, json_name, years, my_NYT_key):
 
 	wf_by_year = {key:[] for key in years}
-
-	aux_file_name = "Missing_headers.csv"
-	aux_file = open(aux_file_name, 'w')
-	aux_file.write('Year,Month,Index\n')
-
 
 	for year in years:
 
 		wf_by_year[year] = {month_name[key]: [] for key in range(1,13)}
 		print('**Year:',year)
 
-		for month in range(3,5):
+		for month in range(1,12):
 			print("Extracting data from", month_name[month], year)
-			wf_by_year[year][month_name[month]] = word_dict(100, month, year, my_key, aux_file)  
-
+			wf_by_year[year][month_name[month]] = word_dict(100, month, year, my_NYT_key, aux_file)  
 
 	aux_file.close() 
 
-	with open('NYT_archive_wordfreq_1990-2018.json', 'w') as json_file:  
+	with open(json_name, 'w') as json_file:  
 		json.dump(wf_by_year, json_file)
 
+	return 0
 
-main()
+
+
+
 
 
 
