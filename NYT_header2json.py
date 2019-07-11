@@ -114,7 +114,20 @@ def export_json(aux_file, json_name, years, my_NYT_key):
 	return 0
 
 
+def main():
 
+	years = range(1989,1990)
+	output_csv = "Missing_headers_"+str(years[0])+"-"+str(years[-1])
+	output_json = "NYT_archive_wordfreq_"+str(years[0])+"-"+str(years[-1])
+
+	my_key = ' your_api_here '
+	
+	export_json(output_csv, output_json, years, my_key)
+
+	return 0
+
+
+main ()
 
 
 
