@@ -86,3 +86,11 @@ def word_dict(top, month, year, my_key, csv_file):
 	fwords = {key: word_freq_f[key] for key in nlargest(top, word_freq_f, key = word_freq_f.get)}
 
 	return fwords
+
+
+def output_missing(aux_file_name):
+	#aux_file_name = "Missing_headers.csv"
+	aux_ = open(aux_file_name, 'w')
+	aux_.write('Year,Month,Index\n')
+
+	return aux_
