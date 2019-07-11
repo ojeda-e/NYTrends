@@ -40,15 +40,22 @@ All the notebooks here included use Python 3.7. The exercises are intended to be
 <img src="https://github.com/ojeda-e/NYTrends/blob/master/NYTrends_Diagram.png"><br>
 
 
-## Analizing the NYT Archive
+## The NYT Archive
 
 ### Extracting Data
 
 ### Analyzing Data
 
-#### Word Frequency
+#### By Header
+##### Word Frequency
 
-#### Time Series Analysis
+##### Time Series Analysis
+
+#### By Abstract
+
+#### Sentiment Analysis - NLP
+
+#### Keyword extraction - NLP
 
 ## Author
 
