@@ -63,7 +63,7 @@ def word_dict(top, month, year, my_key, csv_file):
 			list_words_inheader.extend(data['docs'][element]['headline']['main'].split() )
 
 		else:
-			csv_file.write(str(year)+','+str(month)+','+str(element)+"\n")
+			csv_file.write( str(year) + "," + str(month) + "," + str(element) +"\n")
 			print("No main for header for index", element)
 
 	#print(list_words_inheader)
@@ -102,7 +102,7 @@ def export_json(aux_file, json_name, years, my_NYT_key):
 		wf_by_year[year] = {month_name[key]: [] for key in range(1,13)}
 		print('**Year:',year)
 
-		for month in range(1,12):
+		for month in range(1,13):
 			print("Extracting data from", month_name[month], year)
 			wf_by_year[year][month_name[month]] = word_dict(100, month, year, my_NYT_key, aux_file)  
 
@@ -116,11 +116,12 @@ def export_json(aux_file, json_name, years, my_NYT_key):
 
 def main():
 
-	years = range(1989,1990)
-	output_csv = "Missing_headers_"+str(years[0])+"-"+str(years[-1])
-	output_json = "NYT_archive_wordfreq_"+str(years[0])+"-"+str(years[-1])
+	years = range(1990,2019)
+	output_ = "Missing_headers_"+str(years[0])+"-"+str(years[-1])+".csv"
+	output_json = "NYT_archive_wordfreq_"+str(years[0])+"-"+str(years[-1])+".json"
 
-	my_key = ' your_api_here '
+	output_csv = open(output_, 'w')
+	my_key = ''
 	
 	export_json(output_csv, output_json, years, my_key)
 
